@@ -1,0 +1,62 @@
+# === Terraform ===
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+*.tfvars
+override.tf
+override.tf.json
+terraform.tfvars.json
+.terraform.lock.hcl
+terraform.tfplan
+
+# === Ansible ===
+*.retry
+*.log
+*.vault
+*.secret
+host_vars/
+group_vars/
+inventory/
+ansible.cfg
+.env
+
+# === Packer ===
+packer_cache/
+*.ami.json
+*.manifest.json
+output-*.tar
+*.auto.pkrvars.hcl
+
+# === Secrets and Credentials ===
+*.pem
+*.key
+*.crt
+*.csr
+*.enc
+*.gpg
+*.bak
+secrets.yaml
+credentials.json
+vault_pass.txt
+aws-credentials.json
+
+# === Python / Editors / OS ===
+__pycache__/
+*.py[cod]
+*.swp
+*.swo
+*.DS_Store
+.idea/
+.vscode/
+*.bak
+*.tmp
+*.log
+
+# === Misc ===
+.envrc
+*.zip
+*.tar.gz
+*.tgz
+*.bak
+*.old
