@@ -50,6 +50,11 @@ variable "public_key_contents" {
   type = string
 }
 
+variable "domain_name" {
+  type    = string
+}
+
+
 source "amazon-ebs" "nginx-linux" {
   region                     = var.region
   subnet_id                  = var.subnet_id
