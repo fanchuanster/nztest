@@ -8,18 +8,12 @@ variable "public_subnet_cidr" {
   type        = string
 }
 
-variable "availability_zone" {
-  description = "Availability zone for the public subnet"
+variable "private_subnet_cidr" {
+  description = "CIDR block for the private subnet"
   type        = string
 }
 
-# modules/vpc/outputs.tf
-output "vpc_id" {
-  description = "ID of the VPC"
-  value       = aws_vpc.main.id
-}
-
-output "public_subnet_id" {
-  description = "ID of the public subnet"
-  value       = aws_subnet.public.id
+variable "availability_zone" {
+  description = "Availability zone for the subnets"
+  type        = string
 }
