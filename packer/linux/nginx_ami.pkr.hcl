@@ -73,11 +73,19 @@ source "amazon-ebs" "nginx-linux" {
 
   user_data = <<EOF
 #!/bin/bash
-# Ensure SSH and SFTP support is installed
-sudo dnf install -y openssh-server openssh-clients openssh-sftp-server
-sudo systemctl enable sshd
-sudo systemctl start sshd
+# Install OpenSSH server and SFTP support
+dnf install -y openssh-server openssh-clients
 
+# Ensure SSHD is enabled and started
+systemctl enable sshd
+systemctl start sshd
+
+# Symlink sftp-server where Ansible expects it
+if [ ! -f /usr/lib/sftp-server ]; then
+  ln -s /usr/libexec/openssh/sftp-server /usr/lib/sftp-server
+fi
+
+# Set up SSH access
 mkdir -p /home/ec2-user/.ssh
 echo '${var.public_key_contents}' >> /home/ec2-user/.ssh/authorized_keys
 chown -R ec2-user:ec2-user /home/ec2-user/.ssh
