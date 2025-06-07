@@ -1,24 +1,16 @@
-output "vpc_id" {
-  description = "The ID of the created VPC"
-  value       = module.vpc.vpc_id
+output "vpc_info" {
+  description = "VPC and subnet IDs"
+  value = {
+    vpc_id             = module.vpc.vpc_id
+    public_subnet_id   = module.vpc.public_subnet_id
+    private_subnet_id  = module.vpc.private_subnet_id
+  }
 }
 
-output "public_subnet_id" {
-  description = "The ID of the public subnet"
-  value       = module.vpc.public_subnet_id
-}
-
-output "private_subnet_id" {
-  description = "The ID of the private subnet"
-  value       = module.vpc.private_subnet_id
-}
-
-output "ec2_instance_id" {
-  description = "The ID of the EC2 instance"
-  value       = module.ec2.instance_id
-}
-
-output "ec2_security_group_id" {
-  description = "The ID of the security group attached to EC2"
-  value       = module.ec2.security_group_id
+output "ec2_info" {
+  description = "EC2 instance and security group IDs"
+  value = {
+    instance_id        = module.ec2.instance_id
+    security_group_id  = module.ec2.security_group_id
+  }
 }
