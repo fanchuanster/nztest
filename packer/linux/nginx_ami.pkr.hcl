@@ -64,7 +64,14 @@ source "amazon-ebs" "nginx-linux" {
   ami_name                   = var.ami_name
   associate_public_ip_address = false
 
-    user_data = <<EOF
+  launch_block_device_mappings {
+    device_name = "/dev/xvda"
+    volume_size = 16     # in GiB, increase as needed
+    volume_type = "gp3"  # or "gp2"
+    delete_on_termination = true
+  }
+
+  user_data = <<EOF
 #!/bin/bash
 # Install SSH and SFTP support
 sudo dnf install -y openssh-server openssh-clients
