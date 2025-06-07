@@ -2,11 +2,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+locals {
+  public_subnet_cidr  = cidrsubnet(var.vpc_cidr, 8, 0)
+  private_subnet_cidr = cidrsubnet(var.vpc_cidr, 8, 1)
+}
+
 module "vpc" {
   source               = "./modules/vpc"
   vpc_cidr             = var.vpc_cidr
-  public_subnet_cidr   = var.public_subnet_cidr
-  private_subnet_cidr  = var.private_subnet_cidr
+  public_subnet_cidr   = local.public_subnet_cidr
+  private_subnet_cidr  = local.private_subnet_cidr
   availability_zone    = var.availability_zone
 }
 
