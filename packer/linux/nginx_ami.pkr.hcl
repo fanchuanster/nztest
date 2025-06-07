@@ -39,7 +39,6 @@ variable "ami_name" {
 
 variable "ssh_username" {
   type    = string
-  default = "ec2-user"
 }
 
 variable "ssh_private_key_file" {
