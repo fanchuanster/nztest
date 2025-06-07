@@ -92,7 +92,7 @@ build {
         "-e", "ansible_python_interpreter=/usr/bin/python3",
         "-e", "domain_name=${var.domain_name}"
     ]
-
+    inventory_content = "[default]\n${self.ssh_host}"
     ansible_env_vars = [
       "ANSIBLE_STDOUT_CALLBACK=debug",
       "ANSIBLE_HOST_KEY_CHECKING=False",
