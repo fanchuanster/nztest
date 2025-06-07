@@ -1,3 +1,4 @@
+# packer/linux/nginx_ami.pkr.hcl
 
 packer {
   required_plugins {
@@ -27,9 +28,9 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "ssh_private_key_file" {
+variable "ami_name" {
   type    = string
-  default = "~/.ssh/ops-key.pem"
+  default = "nginx-https-linux-{{timestamp}}"
 }
 
 variable "ssh_username" {
@@ -37,19 +38,30 @@ variable "ssh_username" {
   default = "ec2-user"
 }
 
-variable "ami_name" {
-  type    = string
-  default = "nginx-https-linux-{{timestamp}}"
+variable "ssh_private_key_file" {
+  type = string
+}
+
+variable "public_key_contents" {
+  type = string
 }
 
 source "amazon-ebs" "nginx-linux" {
-  region                  = var.region
-  source_ami              = var.source_ami
-  instance_type           = var.instance_type
-  ssh_username            = var.ssh_username
-  ssh_private_key_file    = var.ssh_private_key_file
-  ami_name                = var.ami_name
+  region                     = var.region
+  source_ami                 = var.source_ami
+  instance_type              = var.instance_type
+  ssh_username               = var.ssh_username
+  ssh_private_key_file       = var.ssh_private_key_file
+  ami_name                   = var.ami_name
   associate_public_ip_address = false
+
+  user_data = <<EOF
+#!/bin/bash
+mkdir -p /home/ec2-user/.ssh
+echo '${var.public_key_contents}' >> /home/ec2-user/.ssh/authorized_keys
+chown -R ec2-user:ec2-user /home/ec2-user/.ssh
+chmod 600 /home/ec2-user/.ssh/authorized_keys
+EOF
 }
 
 build {
@@ -57,7 +69,7 @@ build {
   sources = ["source.amazon-ebs.nginx-linux"]
 
   provisioner "ansible" {
-    playbook_file = "../../ansible/playbook.yml"
+    playbook_file   = "../../ansible/playbook.yml"
     extra_arguments = ["-e", "ansible_python_interpreter=/usr/bin/python3"]
   }
 }
