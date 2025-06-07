@@ -64,23 +64,31 @@ source "amazon-ebs" "nginx-linux" {
   ami_name                   = var.ami_name
   associate_public_ip_address = false
 
-  user_data = <<EOF
+    user_data = <<EOF
 #!/bin/bash
-# Ensure SSH and SFTP support is installed
+# Install SSH and SFTP support
 sudo dnf install -y openssh-server openssh-clients
 
-# Symlink sftp-server to expected location
+# Add symlink for sftp-server for Ansible compatibility
 sudo mkdir -p /usr/lib
 sudo ln -s /usr/libexec/openssh/sftp-server /usr/lib/sftp-server
 
+# Start and enable SSH
 sudo systemctl enable sshd
 sudo systemctl start sshd
 
+# Configure ec2-user SSH
 mkdir -p /home/ec2-user/.ssh
 echo '${var.public_key_contents}' >> /home/ec2-user/.ssh/authorized_keys
 chown -R ec2-user:ec2-user /home/ec2-user/.ssh
 chmod 600 /home/ec2-user/.ssh/authorized_keys
+
+# Fix for Ansible: temp dirs and permissions
+mkdir -p /home/ec2-user/.ansible/tmp
+chown -R ec2-user:ec2-user /home/ec2-user/.ansible
+chmod 700 /home/ec2-user/.ansible/tmp
 EOF
+
 }
 
 build {
