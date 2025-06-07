@@ -101,5 +101,8 @@ build {
         "-e", "ansible_python_interpreter=/usr/bin/python3",
         "-e", "domain_name=${var.domain_name}"
     ]
+    ansible_env_vars = [
+      "ANSIBLE_SCP_IF_SSH=true"
+    ]
   }
 }
