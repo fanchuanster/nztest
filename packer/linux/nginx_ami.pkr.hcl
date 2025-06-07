@@ -18,6 +18,10 @@ variable "region" {
   default = "us-west-2"
 }
 
+variable "subnet_id" {
+  type  = string
+}
+
 variable "source_ami" {
   type    = string
   default = "ami-0418306302097dbff"
@@ -48,6 +52,7 @@ variable "public_key_contents" {
 
 source "amazon-ebs" "nginx-linux" {
   region                     = var.region
+  subnet_id                  = var.subnet_id
   source_ami                 = var.source_ami
   instance_type              = var.instance_type
   ssh_username               = var.ssh_username

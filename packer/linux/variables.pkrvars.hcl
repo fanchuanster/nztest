@@ -1,4 +1,5 @@
 region               = "us-west-2"
+subnet_id            = "subnet-0c02b52b8296b42bf"
 source_ami           = "ami-0418306302097dbff"
 instance_type        = "t3.micro"
 ssh_private_key_file = "~/.ssh/ops-key.pem"
