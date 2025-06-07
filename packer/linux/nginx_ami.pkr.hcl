@@ -54,7 +54,6 @@ variable "domain_name" {
   type    = string
 }
 
-
 source "amazon-ebs" "nginx-linux" {
   region                     = var.region
   subnet_id                  = var.subnet_id
@@ -82,7 +81,7 @@ build {
     playbook_file   = "../../ansible/playbook.yml"
     extra_arguments = [
         "-e", "ansible_python_interpreter=/usr/bin/python3",
-        "-e", "domain_name={{user `domain_name`}}"
+        "-e", "domain_name=${var.domain_name}"
     ]
 
   }
