@@ -15,7 +15,6 @@ packer {
 
 variable "region" {
   type    = string
-  default = "us-west-2"
 }
 
 variable "subnet_id" {
@@ -24,17 +23,14 @@ variable "subnet_id" {
 
 variable "source_ami" {
   type    = string
-  default = "ami-0418306302097dbff"
 }
 
 variable "instance_type" {
   type    = string
-  default = "t3.micro"
 }
 
 variable "ami_name" {
   type    = string
-  default = "nginx-https-linux-{{timestamp}}"
 }
 
 variable "ssh_username" {
