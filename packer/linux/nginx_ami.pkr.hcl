@@ -68,6 +68,11 @@ source "amazon-ebs" "nginx-linux" {
 #!/bin/bash
 # Ensure SSH and SFTP support is installed
 sudo dnf install -y openssh-server openssh-clients
+
+# Symlink sftp-server to expected location
+sudo mkdir -p /usr/lib
+sudo ln -s /usr/libexec/openssh/sftp-server /usr/lib/sftp-server
+
 sudo systemctl enable sshd
 sudo systemctl start sshd
 
