@@ -1,0 +1,6 @@
+region           = "us-west-2"
+source_ami       = "ami-0418306302097dbff"
+instance_type    = "t3.micro"
+ssh_keypair_name = "ops-key"
+ssh_username     = "ec2-user"
+ami_name         = "nginx-https-linux-{{timestamp}}"
