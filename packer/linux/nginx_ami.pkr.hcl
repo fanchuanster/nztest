@@ -92,5 +92,15 @@ build {
         "-e", "ansible_python_interpreter=/usr/bin/python3",
         "-e", "domain_name=${var.domain_name}"
     ]
+
+    ansible_env_vars = [
+      "ANSIBLE_STDOUT_CALLBACK=debug",
+      "ANSIBLE_HOST_KEY_CHECKING=False",
+      "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'",
+      "ANSIBLE_NOCOLOR=True"
+      ]
+    ansible_ssh_extra_args = [
+      "-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa"
+    ]
   }
 }
