@@ -66,6 +66,10 @@ source "amazon-ebs" "nginx-linux" {
 
   user_data = <<EOF
 #!/bin/bash
+dnf install -y openssh-server openssh-clients
+systemctl enable sshd
+systemctl start sshd
+
 mkdir -p /home/ec2-user/.ssh
 echo '${var.public_key_contents}' >> /home/ec2-user/.ssh/authorized_keys
 chown -R ec2-user:ec2-user /home/ec2-user/.ssh
