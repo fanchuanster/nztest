@@ -1,11 +1,19 @@
+# modules/ec2/main.tf (EC2 instance in private subnet with SSH and SSM)
 resource "aws_security_group" "web_sg" {
   name        = "web-sg"
-  description = "Allow HTTPS and SSM"
+  description = "Allow HTTPS, SSH and SSM"
   vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -50,12 +58,13 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  subnet_id                   = var.subnet_id
+  vpc_security_group_ids      = [aws_security_group.web_sg.id]
+  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   associate_public_ip_address = false
+  key_name                    = var.key_name
 
   tags = {
     Name = "web-server"

@@ -3,8 +3,8 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "private_subnet_id" {
-  description = "The private subnet ID for the EC2 instance"
+variable "subnet_id" {
+  description = "The subnet ID for the EC2 instance"
   type        = string
 }
 
