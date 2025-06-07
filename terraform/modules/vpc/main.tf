@@ -40,7 +40,10 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_eip" "nat" {
-  vpc = true
+  domain = "vpc" # Use 'domain' instead of 'vpc' (modern syntax)
+  tags = {
+    Name = "nat-eip"
+  }
 }
 
 resource "aws_nat_gateway" "nat" {
