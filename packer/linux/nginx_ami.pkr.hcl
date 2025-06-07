@@ -92,7 +92,7 @@ build {
         "-e", "ansible_python_interpreter=/usr/bin/python3",
         "-e", "domain_name=${var.domain_name}"
     ]
-    inventory_content = "[default]\n${self.ssh_host}"
+    inventory_file = "/tmp/packer-ansible-inventory"
     ansible_env_vars = [
       "ANSIBLE_STDOUT_CALLBACK=debug",
       "ANSIBLE_HOST_KEY_CHECKING=False",
@@ -101,6 +101,13 @@ build {
     ]
     ansible_ssh_extra_args = [
       "-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa"
+    ]
+  }
+
+  provisioner "shell-local" {
+    inline = [
+        "echo '[default]' > /tmp/packer-ansible-inventory",
+        "echo '${source.amazon-ebs.nginx-linux.ssh_host}' >> /tmp/packer-ansible-inventory"
     ]
   }
 }
