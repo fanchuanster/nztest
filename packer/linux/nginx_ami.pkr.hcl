@@ -27,9 +27,9 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "ssh_keypair_name" {
+variable "ssh_private_key_file" {
   type    = string
-  default = "ops-key"
+  default = "~/.ssh/ops-key.pem"
 }
 
 variable "ssh_username" {
@@ -47,7 +47,7 @@ source "amazon-ebs" "nginx-linux" {
   source_ami              = var.source_ami
   instance_type           = var.instance_type
   ssh_username            = var.ssh_username
-  key_pair_name           = var.ssh_keypair_name
+  ssh_private_key_file    = var.ssh_private_key_file
   ami_name                = var.ami_name
   associate_public_ip_address = false
 }
