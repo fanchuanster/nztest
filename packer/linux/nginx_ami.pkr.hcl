@@ -91,9 +91,9 @@ chown -R ec2-user:ec2-user /home/ec2-user/.ssh
 chmod 600 /home/ec2-user/.ssh/authorized_keys
 
 # Fix for Ansible: temp dirs and permissions
-mkdir -p /home/ec2-user/.ansible/tmp
-chown -R ec2-user:ec2-user /home/ec2-user/.ansible
-chmod 700 /home/ec2-user/.ansible/tmp
+# mkdir -p /home/ec2-user/.ansible/tmp
+# chown -R ec2-user:ec2-user /home/ec2-user/.ansible
+# chmod 700 /home/ec2-user/.ansible/tmp
 EOF
 
 }
