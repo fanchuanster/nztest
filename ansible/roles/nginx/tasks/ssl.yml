@@ -9,6 +9,6 @@
     openssl req -x509 -nodes -days 365 -newkey rsa:2048
     -keyout /etc/nginx/ssl/selfsigned.key
     -out /etc/nginx/ssl/selfsigned.crt
-    -subj "/C=US/ST=Test/L=City/O=Org/OU=Unit/CN=www.mynginux.com"
+    -subj "/C=US/ST=Test/L=City/O=Org/OU=Unit/CN={{ domain_name }}"
   args:
     creates: /etc/nginx/ssl/selfsigned.crt
