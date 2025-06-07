@@ -103,11 +103,4 @@ build {
       "-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa"
     ]
   }
-
-  provisioner "shell-local" {
-    inline = [
-        "echo '[default]' > /tmp/packer-ansible-inventory",
-        "echo '${source.amazon-ebs.nginx-linux.ssh_host}' >> /tmp/packer-ansible-inventory"
-    ]
-  }
 }
