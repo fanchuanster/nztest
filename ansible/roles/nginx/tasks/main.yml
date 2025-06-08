@@ -1,0 +1,24 @@
+- name: Install Nginx
+  package:
+    name: nginx
+    state: present
+
+- name: Copy index page
+  copy:
+    src: index.html
+    dest: /usr/share/nginx/html/index.html
+    mode: '0644'
+
+- name: Copy nginx config from template
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/default.conf
+    mode: '0644'
+
+- import_tasks: ssl.yml
+
+- name: Enable and start nginx with systemd
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: true
+    state: restarted

@@ -1,0 +1,6 @@
+- name: Configure Nginx with HTTPS
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - nginx
