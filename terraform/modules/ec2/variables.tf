@@ -8,8 +8,8 @@ variable "subnet_id" {
   type        = string
 }
 
-variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
+variable "base_amazon_ami_name_filter" {
+  description = "Base amazon ami name filter"
   type        = string
 }
 

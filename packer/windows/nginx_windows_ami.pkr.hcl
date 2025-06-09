@@ -14,7 +14,8 @@ variable "instance_type"    { default = "t3.large" }
 variable "ami_name"         { default = "nginx-https-windows-{{timestamp}}" }
 variable "winrm_username"   { default = "Administrator" }
 variable "winrm_password"   { default = "RUvMEK;(gjegc?VkYrcG.-4vV@u3x$rg" }
-variable "domain_name"      { default = "www.mynginxwindows.com" }
+variable "domain_name"      { default = "www.mynginx.com" }
+variable "base_amazon_ami_name_filter"      { default = "Windows_Server-2019-English-Full-Base-*" }
 
 source "amazon-ebs" "windows" {
   region                      = var.region
@@ -32,7 +33,7 @@ source "amazon-ebs" "windows" {
 
   source_ami_filter {
     filters = {
-      name                = "Windows_Server-2019-English-Full-Base-*"
+      name                = var.base_amazon_ami_name_filter
       virtualization-type = "hvm"
       root-device-type    = "ebs"
     }

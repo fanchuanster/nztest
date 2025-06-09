@@ -11,10 +11,10 @@ module "vpc" {
 }
 
 module "ec2" {
-  source              = "./modules/ec2"
-  vpc_id              = module.vpc.vpc_id
-  subnet_id           = module.vpc.private_subnet_id
-  ami_id              = var.ami_id
-  instance_type       = var.instance_type
-  key_name            = var.key_name
+  source                      = "./modules/ec2"
+  vpc_id                      = module.vpc.vpc_id
+  subnet_id                   = module.vpc.private_subnet_id
+  base_amazon_ami_name_filter = var.base_amazon_ami_name_filter
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
 }

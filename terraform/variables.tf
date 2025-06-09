@@ -13,9 +13,10 @@ variable "availability_zone" {
   type        = string
 }
 
-variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
+variable "base_amazon_ami_name_filter" {
+  description = "Base amazon ami name filter"
   type        = string
+  default     = "al2023-ami-kernel-default-x86_64"
 }
 
 variable "instance_type" {
