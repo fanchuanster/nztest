@@ -65,7 +65,7 @@ source "amazon-ebs" "nginx-linux" {
   launch_block_device_mappings {
     device_name = "/dev/xvda"
     volume_size = 8     # in GiB, increase as needed
-    volume_type = "gp3"  # or "gp2"
+    volume_type = "gp3"
     delete_on_termination = true
   }
 
@@ -76,9 +76,6 @@ dnf install -y openssh-server curl
 systemctl enable sshd
 systemctl start sshd
 
-# Fix SFTP for Ansible SCP
-# ln -s /usr/libexec/openssh/sftp-server /usr/lib/sftp-server || true
-
 mkdir -p /home/${var.ssh_username}/.ssh
 echo '${var.public_key_contents}' >> /home/${var.ssh_username}/.ssh/authorized_keys
 chown -R ${var.ssh_username}:${var.ssh_username} /home/${var.ssh_username}/.ssh
@@ -87,9 +84,7 @@ chmod 600 /home/${var.ssh_username}/.ssh/authorized_keys
 mkdir -p /home/${var.ssh_username}/.ansible/tmp
 chown -R ${var.ssh_username}:${var.ssh_username} /home/${var.ssh_username}/.ansible
 chmod -R 700 /home/${var.ssh_username}/.ansible
-
 EOF
-
 }
 
 build {
@@ -107,7 +102,6 @@ build {
     ansible_env_vars = [
       "ANSIBLE_HOST_KEY_CHECKING=False",
       "ANSIBLE_STDOUT_CALLBACK=debug"
-
     ]
   }
 }

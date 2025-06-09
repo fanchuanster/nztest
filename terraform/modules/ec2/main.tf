@@ -58,22 +58,6 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   role = aws_iam_role.ec2_role.name
 }
 
-data "aws_ami" "amazon_base_ami" {
-  most_recent = true
-  owners      = ["801119661308"] # Amazon's official Windows AMIs
-
-  filter {
-    name   = "name"
-    values = [var.base_amazon_ami_name_filter]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-
 resource "aws_instance" "web" {
   ami                         = var.ami_id
   instance_type               = var.instance_type

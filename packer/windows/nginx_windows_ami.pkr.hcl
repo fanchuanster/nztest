@@ -26,7 +26,6 @@ source "amazon-ebs" "windows" {
   winrm_username              = var.winrm_username
   winrm_password              = var.winrm_password
   winrm_use_ssl               = false
-  # winrm_insecure              = true
   security_group_id           = "sg-0295e3e293c567d68"
   associate_public_ip_address = true
   user_data_file              = "scripts/user_data.bat"
@@ -41,7 +40,6 @@ source "amazon-ebs" "windows" {
     most_recent = true
   }
 }
-
 
 build {
   sources = ["source.amazon-ebs.windows"]

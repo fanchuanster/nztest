@@ -33,3 +33,4 @@
    ![1749457135168](screenshots/1749457135168.png)
 6. verity https access and self-signed certificate
    ![1749457684017](screenshots/1749457684017.png)
+7. manually reused self-signed certificate for Windows
