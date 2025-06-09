@@ -11,6 +11,5 @@ output "ec2_info" {
   description = "EC2 instance and security group IDs"
   value = {
     instance_id        = module.ec2.instance_id
-    security_group_id  = module.ec2.security_group_id
   }
 }
