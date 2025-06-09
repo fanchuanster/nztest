@@ -21,13 +21,13 @@
 
 ### * Packer
 
-1. built nginx linux AMI - ami-0fdcaf037ff67a497. For debugging the build EC2 was in public subnet, however it can be in private subnet.
+1. built nginx linux AMI - ami-0fdcaf037ff67a497.
    ![1749379185953](screenshots/1749379185953.png)
 2. launched an EC2 with the AMI
    ![1749379456374](screenshots/1749379456374.png)
 3. verity https access and self-signed certificate
    ![1749379736420](screenshots/1749379736420.png)
-4. built nginx Windows AMI - ami-0a3c8035610690748
+4. built nginx Windows AMI - ami-0a3c8035610690748. For debugging the build EC2 was in public subnet, however it can be in private subnet.
    ![1749456826468](screenshots/1749456826468.png)
 5. launched an EC2 from the Windows AMI in private subnet
    ![1749457135168](screenshots/1749457135168.png)
