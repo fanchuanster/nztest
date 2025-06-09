@@ -71,6 +71,10 @@ source "amazon-ebs" "nginx-linux" {
 
   user_data = <<EOF
 #!/bin/bash
+dnf update -y
+dnf install -y openssh-server curl
+systemctl enable sshd
+systemctl start sshd
 
 # Fix SFTP for Ansible SCP
 # ln -s /usr/libexec/openssh/sftp-server /usr/lib/sftp-server || true
@@ -79,6 +83,11 @@ mkdir -p /home/${var.ssh_username}/.ssh
 echo '${var.public_key_contents}' >> /home/${var.ssh_username}/.ssh/authorized_keys
 chown -R ${var.ssh_username}:${var.ssh_username} /home/${var.ssh_username}/.ssh
 chmod 600 /home/${var.ssh_username}/.ssh/authorized_keys
+
+mkdir -p /home/${var.ssh_username}/.ansible/tmp
+chown -R ${var.ssh_username}:${var.ssh_username} /home/${var.ssh_username}/.ansible
+chmod -R 700 /home/${var.ssh_username}/.ansible
+
 EOF
 
 }
@@ -87,23 +96,18 @@ build {
   name    = "nginx-linux-ami"
   sources = ["source.amazon-ebs.nginx-linux"]
 
-  provisioner "shell" {
-    inline = [
-      "sudo dnf install python3-pip -y",
-      "python3 -m pip install --user ansible"
-    ]
-  }
-
-  provisioner "ansible-local" {
+  provisioner "ansible" {
     playbook_file   = "../../ansible/playbook.yml"
-    playbook_dir    = "../../ansible"
+    user            = var.ssh_username
+    use_proxy       = false     # workaround file transfer failure with local proxy
     extra_arguments = [
         "-e", "ansible_python_interpreter=/usr/bin/python3",
         "-e", "domain_name=${var.domain_name}"
     ]
-    # ansible_env_vars = [
-    #   "ANSIBLE_HOST_KEY_CHECKING=False",
-    #   "ANSIBLE_SCP_IF_SSH=True"
-    # ]
+    ansible_env_vars = [
+      "ANSIBLE_HOST_KEY_CHECKING=False",
+      "ANSIBLE_STDOUT_CALLBACK=debug"
+
+    ]
   }
 }

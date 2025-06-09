@@ -19,9 +19,9 @@
 4. inspect cert and CN![1749289466928](screenshots/1749289466928.png)
 
 ### * Packer
-1. built nginx linux AMI - ami-069fbc6e50ff68829
-![1749344066510](screenshots/1749344066510.png)
+1. built nginx linux AMI - ami-0fdcaf037ff67a497
+![1749379185953](screenshots/1749379185953.png)
 2. launched an EC2 with the AMI
-![1749344215506](screenshots/1749344215506.png)
+![1749379456374](screenshots/1749379456374.png)
 3. verity https access and self-signed certificate
-![1749344324674](screenshots/1749344324674.png)
+![1749379736420](screenshots/1749379736420.png)

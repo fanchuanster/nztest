@@ -1,10 +1,11 @@
 region               = "us-west-2"
 subnet_id            = "subnet-0c02b52b8296b42bf"
-# source_ami           = "ami-0026a04369a3093cc"
-source_ami           = "ami-0418306302097dbff"
+source_ami           = "ami-0026a04369a3093cc"  # ubuntu
+# source_ami           = "ami-0418306302097dbff"    # amazon linux 2023
 instance_type        = "t2.micro"
 ssh_private_key_file = "~/.ssh/ops-key.pem"
 public_key_contents  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCq5a0dodgrKOqHFR2pibNRB0d9yoKgHukeMjaw/6q1sQfYMu0A4t9wJ6EJHq16cY2utJNGMEAT2L7KFRDMHZY2KPOytfcvbJCTMPcJlLeCZaEeQOx/aEUAhqfuPCWzl/YyPYQjvEfaXwpjT9XJpEhceux9mfl7oaAj3OCJ4WM+NZewE2Y+Wvv/GaPBp3QLLhBypISfyrrqcDbJtFJWiE9JDOFhgaIVhWfB7AxHhZVzRBGpuzWMFb2jrelFIr8scl4tfoY1C+TpFPEL4nhoKvHcKTU6gWIBpzD72WIKHP2O82/++cnv6WcdDrFiOlKJ4HCHztu6C6dvh00WOoI9euTp"
-ssh_username         = "ec2-user"
+# ssh_username         = "ec2-user"
+ssh_username         = "ubuntu"
 domain_name          = "www.mynginux.com"
 ami_name             = "nginx-https-linux-{{timestamp}}"
