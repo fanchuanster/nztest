@@ -13,4 +13,29 @@ powershell -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Cu
 powershell -Command "if ($?) { Add-Content -Path C:\tmp\user_data.log -Value 'Registry update successful' } else { Add-Content -Path C:\tmp\user_data.log -Value 'Registry update failed' }"
 
 
+echo Opening firewall for WinRM >> C:\tmp\user_data.log
+powershell -Command "New-NetFirewallRule -Name 'AllowWinRM_HTTP' -DisplayName 'Allow WinRM HTTP' -Protocol TCP -LocalPort 5985 -Direction Inbound -Action Allow -ErrorAction SilentlyContinue"
+
+echo Enabling PowerShell Remoting >> C:\tmp\user_data.log
+powershell -Command "Enable-PSRemoting -Force -SkipNetworkProfileCheck -ErrorAction SilentlyContinue"
+
+
+echo Enabling WinRM Basic Auth via PowerShell >> C:\tmp\user_data.log
+powershell -Command "winrm set winrm/config/service/auth '@{Basic=\"true\"}'" >> C:\tmp\user_data.log 2>&1
+if %ERRORLEVEL%==0 (
+    echo WinRM AllowUnencrypted enabled successfully >> C:\tmp\user_data.log
+) else (
+    echo Failed to enable WinRM AllowUnencrypted >> C:\tmp\user_data.log
+)
+
+echo Enabling WinRM AllowUnencrypted via PowerShell >> C:\tmp\user_data.log
+powershell -Command "winrm set winrm/config/service '@{AllowUnencrypted=\"true\"}'" >> C:\tmp\user_data.log 2>&1
+if %ERRORLEVEL%==0 (
+    echo WinRM AllowUnencrypted enabled successfully >> C:\tmp\user_data.log
+) else (
+    echo Failed to enable WinRM AllowUnencrypted >> C:\tmp\user_data.log
+)
+
+type C:\tmp\user_data.log > CON
+
 </script>

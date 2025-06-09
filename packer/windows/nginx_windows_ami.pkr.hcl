@@ -70,35 +70,35 @@ build {
   provisioner "powershell" {
     inline = [
       # Install Nginx
-      "Invoke-WebRequest -Uri https://nginx.org/download/nginx-1.24.0.zip -OutFile C:\\nginx.zip",
-      "Expand-Archive -Path C:\\nginx.zip -DestinationPath C:\\nginx",
-      "New-Item -Path C:\\nginx\\certs -ItemType Directory",
+      "Invoke-WebRequest -Uri https://nginx.org/download/nginx-1.24.0.zip -OutFile C:\\tmp\\nginx.zip",
+      "Expand-Archive -Path C:\\tmp\\nginx.zip -DestinationPath C:\\tmp",
+      "Move-Item -Path C:\\tmp\\nginx-* -Destination C:\\nginx",
+      "New-Item -Path C:\\nginx\\certs -ItemType Directory -Force",
 
       # Render nginx.conf from template
       "$template = Get-Content -Path C:\\tmp\\nginx.conf.j2 -Raw",
       "$config = $template -replace '\\{\\{\\s*domain_name\\s*\\}\\}', '${var.domain_name}'",
-      "Set-Content -Path C:\\nginx\\nginx-1.24.0\\conf\\nginx.conf -Value $config",
+      "Set-Content -Path C:\\nginx\\conf\\nginx.conf -Value $config",
 
       # Render index.html
-      "$content = Get-Content -Path C:\\tmp\\index.html -Raw",
-      "Set-Content -Path C:\\nginx\\nginx-1.24.0\\html\\index.html -Value $content",
+      "Copy-Item -Path C:\\tmp\\index.html -Destination C:\\nginx\\html\\index.html ",
 
       # Deploy self-signed certificate
-      "$content = Get-Content -Path C:\\tmp\\selfsigned.key -Raw",
-      "Set-Content -Path C:\\nginx\\certs\\cert.key -Value $content",
-      "$content = Get-Content -Path C:\\tmp\\selfsigned.crt -Raw",
-      "Set-Content -Path C:\\nginx\\certs\\cert.crt -Value $content",
+      "Copy-Item -Path C:\\tmp\\selfsigned.key -Destination C:\\nginx\\certs\\cert.key",
+      "Copy-Item -Path C:\\tmp\\selfsigned.crt -Destination C:\\nginx\\certs\\cert.crt",
 
       # Open firewall for HTTPS
       "New-NetFirewallRule -DisplayName 'Allow HTTPS' -Direction Inbound -LocalPort 443 -Protocol TCP -Action Allow",
 
       # Download and install NSSM
-      "Invoke-WebRequest -Uri https://nssm.cc/release/nssm-2.24.zip -OutFile C:\\nssm.zip",
-      "Expand-Archive -Path C:\\nssm.zip -DestinationPath C:\\nssm",
+      "Invoke-WebRequest -Uri https://nssm.cc/release/nssm-2.24.zip -OutFile C:\\tmp\\nssm.zip",
+      "Expand-Archive -Path C:\\tmp\\nssm.zip -DestinationPath C:\\tmp",
+      "Move-Item -Path C:\\tmp\\nssm-* -Destination C:\\nssm",
 
       # Install Nginx as a Windows service using NSSM
       "C:\\nssm\\win64\\nssm.exe install nginx C:\\nginx\\nginx.exe",
-      "C:\\nssm\\win64\\nssm.exe restart nginx"
+      "Set-Service -Name nginx -StartupType Automatic",
+      "Start-Service -Name nginx"
     ]
   }
 }
